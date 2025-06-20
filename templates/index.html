@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Live Match Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      background: #1e1e1e;
+      color: white;
+      font-family: Arial;
+      display: flex;
+      height: 100%;
+    }
+    .pitch {
+      flex: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .pitch img {
+      width: 100%;
+      height: auto;
+      border: 3px solid #00bfff;
+    }
+    .warnings {
+      flex: 1;
+      padding: 1rem;
+      background: #333;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="pitch">
+    <img id="frame-img" src="" alt="Frame 1" />
+    <img id="frame-img-2" src="" alt="Frame 2" />
+    <img id="pitch-img" src="" alt="Live Pitch" />
+    <img id="voronoi-img" src="" alt="Voronoi Diagram" />
+  </div>
+  <div class="warnings">
+    <h2>Injury Warnings</h2>
+    <ul id="warning-list"></ul>
+  </div>
+
+  <script>
+      async function update() {
+        try {
+          // Daten holen
+          const res = await fetch("/data");
+          const data = await res.json();
+
+          if (!data) {
+            console.error("Keine Daten empfangen");
+            return;
+          }
+
+          if (data.frame) {
+            document.getElementById("frame-img").src = "data:image/jpeg;base64," + data.frame;
+          }
+          if (data.frame2) {
+            document.getElementById("frame-img-2").src = "data:image/jpeg;base64," + data.frame2;
+          } else {
+            document.getElementById("frame-img-2").style = "display: none;";
+          }
+
+          if (data.pitch) {
+            document.getElementById("pitch-img").src = "data:image/jpeg;base64," + data.pitch;
+          }
+
+          if (data.voronoi) {
+            document.getElementById("voronoi-img").src = "data:image/jpeg;base64," + data.voronoi;
+          }
+
+          const warningList = document.getElementById("warning-list");
+          warningList.innerHTML = "";
+          data.warnings.forEach(w => {
+            const li = document.createElement("li");
+            li.textContent = w;
+            warningList.appendChild(li);
+          });
+
+        } catch (e) {
+          console.error("Fehler beim Update:", e);
+        }
+      }
+
+    setInterval(update, 100);
+  </script>
+</body>
+</html>
