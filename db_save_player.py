@@ -1,12 +1,22 @@
 import psycopg2
 
 DB_CONFIG = {
+    "host": "localhost",
+    "port": 5432,
+    "dbname": "CageLight_DB",
+    "user": "postgres",
+    "password": "admin123"
+}
+
+"""
+DB_CONFIG = {
     "host": "dpg-d0pi8f6uk2gs739m9c40-a.frankfurt-postgres.render.com",
     "port": 5432,
     "dbname": "cagelight",
     "user": "cagelight",
     "password": "lC8JmUvTst9rI5bfUyZWSQyClqrdVrNN"
 }
+"""
 
 def get_connection():
     return psycopg2.connect(**DB_CONFIG)
