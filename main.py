@@ -32,7 +32,7 @@ PERSON_CLASS_ID = 0
 CONFIDENCE_THRESHOLD_BALL = 0.4
 data = []
 USE_VIDEO = True  # Set to True to use video files for testing, False to use camera streams
-CREATE_PLAYER_TABLE = False  # Set to True to create the player table in the database
+CREATE_PLAYER_TABLE = True  # Set to True to create the player table in the database
 
 # GameConfig Class for game configuration
 class GameConfig:
